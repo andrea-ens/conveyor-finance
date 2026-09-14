@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+dist
+.DS_Store
+.env
+.env.local
+.env*.local
+_ref-crypgo
+_ref-defi
+_ref-trader
+*.log
+.vercel
