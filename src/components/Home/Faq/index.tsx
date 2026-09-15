@@ -39,6 +39,11 @@ const faqData = [
     answer:
       "Request access via conveyor.finance/contact. We provision dashboard and trading environments per organization.",
   },
+  {
+    question: "Are you hiring?",
+    answer:
+      "Yes. Careers is a primary company surface. See open roles at conveyor.finance/careers or write to careers@conveyor.finance.",
+  },
 ];
 
 const Faq = () => {

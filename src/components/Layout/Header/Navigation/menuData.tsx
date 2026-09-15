@@ -12,6 +12,15 @@ export const headerData: HeaderItem[] = [
     ],
   },
   { label: "Why Conveyor", href: "/#upgrade" },
-  { label: "Company", href: "/company" },
+  {
+    label: "Company",
+    href: "/company",
+    submenu: [
+      { label: "About", href: "/company" },
+      { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  { label: "Careers", href: "/careers" },
   { label: "FAQs", href: "/#faq" },
 ];

@@ -40,6 +40,13 @@ export default function CompanyPage() {
               branded.
             </p>
             <p>
+              Careers is a core company surface. Open roles live at{" "}
+              <a href="/careers" className="text-primary hover:underline">
+                conveyor.finance/careers
+              </a>
+              . People inquiries: careers@conveyor.finance
+            </p>
+            <p>
               Headquarters correspondence: hello@conveyor.finance
             </p>
           </div>

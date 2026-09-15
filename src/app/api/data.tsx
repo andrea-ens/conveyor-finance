@@ -2,6 +2,7 @@ export const footerlabels: { label: string; herf: string }[] = [
   { label: "Terms", herf: "/legal/terms" },
   { label: "Privacy", herf: "/legal/privacy" },
   { label: "Disclosures", herf: "/legal/disclosures" },
+  { label: "Careers", herf: "/careers" },
   { label: "Contact", herf: "/contact" },
 ];
 
