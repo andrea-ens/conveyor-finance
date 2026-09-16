@@ -14,16 +14,15 @@ const DashboardPreview = () => {
               Portfolio, P&amp;L, and liquidity in one view
             </h2>
             <p className="text-white/60 text-lg mt-4 max-w-2xl">
-              Inspired by production DeFi desks: net worth across chains,
-              unrealized P&amp;L, open positions, and LP health — dark by
-              default, information-dense without becoming hostile.
+              Product study: net worth, P&amp;L, positions, and LP health.
+              Figures are illustrative.
             </p>
           </div>
           <Link
-            href="/dashboard"
+            href="/work"
             className="text-primary font-medium hover:underline"
           >
-            Open product preview →
+            All selected work →
           </Link>
         </div>
 

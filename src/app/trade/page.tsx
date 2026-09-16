@@ -1,39 +1,44 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import HeroSub from "@/components/SharedComponent/HeroSub";
 import TradingPreview from "@/components/Product/TradingPreview";
-import LiveTicker from "@/components/Product/LiveTicker";
 
 export const metadata: Metadata = {
-  title: "Trading",
+  title: "Trading workspace",
   description:
-    "Conveyor trading terminal: live charts, order book, watchlists, alerts, and backtests.",
+    "Product study: trading UI. Illustrative figures. Not a live venue.",
 };
 
 export default function TradePage() {
   return (
     <main>
-      <HeroSub title="Trading terminal" />
+      <HeroSub title="Trading workspace" />
       <section className="pt-12 pb-4">
         <div className="container px-4 space-y-8">
-          <p className="text-white/70 max-w-3xl text-lg">
-            Execution UI designed for operators: keyboard-first navigation,
-            live tickers, depth, alerts, and research overlays. This preview
-            shows the intended layout for conveyor.finance trading.
+          <p className="text-primary text-sm uppercase tracking-wide">
+            Product study
           </p>
-          <LiveTicker />
+          <p className="text-white/70 max-w-3xl text-lg leading-relaxed">
+            A desk-density trading UI study related to trading-mvp. Layout and
+            numbers are for marketing. This is not a live terminal.{" "}
+            <Link href="/work" className="text-primary hover:underline">
+              Back to selected work
+            </Link>
+            .
+          </p>
           <div className="grid md:grid-cols-3 gap-4">
             {[
               {
                 title: "Price alerts",
-                text: "Above/below thresholds with persistent watch state.",
+                text: "Threshold UX for a future product — not connected to a venue.",
               },
               {
                 title: "Compare & backtest",
-                text: "Normalized overlays and SMA crossover equity curves.",
+                text: "Research layout study. Results on this page are illustrative.",
               },
               {
                 title: "Desk shortcuts",
-                text: "Jump between markets, watchlist, and portfolio instantly.",
+                text: "Navigation patterns for operators, shown as a prototype.",
               },
             ].map((card) => (
               <div

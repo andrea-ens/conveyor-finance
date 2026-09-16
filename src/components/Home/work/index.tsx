@@ -22,20 +22,20 @@ const Work = () => {
   const services = [
     {
       icon: '/images/chooseus/chooseus-icon-1.svg',
-      text: 'Execution-grade trading terminal',
+      text: 'Institutional marketing for on-chain products',
     },
     {
       icon: '/images/chooseus/chooseus-icon-2.svg',
-      text: 'Multi-chain DeFi portfolio intelligence',
+      text: 'Trading and portfolio product studies',
     },
     {
       icon: '/images/chooseus/chooseus-icon-3.svg',
-      text: 'Risk, alerts, and operator workflows',
+      text: 'Careers and company surfaces that look like the product',
     },
   ]
 
   return (
-    <section className='' id='work'>
+    <section className='' id='why'>
       <div className='container px-4 mx-auto lg:max-w-(--breakpoint-xl)'>
         <div ref={ref} className='grid grid-cols-12 items-center'>
           <motion.div
@@ -43,10 +43,10 @@ const Work = () => {
             className='lg:col-span-7 col-span-12'>
             <div className='flex flex-col gap-3'>
               <p className="text-white font-medium">
-                Why teams choose <span className='text-primary'>Conveyor</span>
+                Why teams work with <span className='text-primary'>Conveyor</span>
               </p>
               <h2 className='sm:text-5xl text-3xl text-white lg:w-full md:w-70% font-medium'>
-                One operating system for desks that never stop
+                A marketing site with real engineering behind it
               </h2>
             </div>
             <div className='grid md:grid-cols-2 gap-7 mt-11'>

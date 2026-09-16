@@ -37,11 +37,20 @@ const MobileHeaderLink: React.FC<{
     if (onClick) onClick();
   };
 
+  const pathName = path ?? "";
+
   const isActive = (href: string) => {
     if (href.startsWith("/#")) {
-      return path === "/" && activeHash === href.replace("/", "");
+      return pathName === "/" && activeHash === href.replace("/", "");
     }
-    return path === href;
+    if (href.includes("#")) {
+      const [pathname, hash] = href.split("#");
+      return pathName === pathname && activeHash === `#${hash}`;
+    }
+    if (href === "/blog" || href.startsWith("/blog/")) {
+      return pathName === "/blog" || pathName.startsWith("/blog/");
+    }
+    return pathName === href;
   };
 
   return (
@@ -78,6 +87,12 @@ const MobileHeaderLink: React.FC<{
             <Link
               key={index}
               href={subItem.href}
+              target={subItem.href.startsWith("http") ? "_blank" : undefined}
+              rel={
+                subItem.href.startsWith("http")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               onClick={() => handleLinkClick(subItem.href)}
               className={`block py-2 px-4 rounded-md transition-all duration-300 ${
                 isActive(subItem.href)

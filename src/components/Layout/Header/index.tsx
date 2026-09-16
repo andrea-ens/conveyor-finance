@@ -5,9 +5,6 @@ import { headerData } from "../Header/Navigation/menuData";
 import Logo from "./Logo";
 import HeaderLink from "../Header/Navigation/HeaderLink";
 import MobileHeaderLink from "../Header/Navigation/MobileHeaderLink";
-import Signin from "@/components/Auth/SignIn";
-import SignUp from "@/components/Auth/SignUp";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
@@ -15,8 +12,6 @@ const Header: React.FC = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
   const [activeHash, setActiveHash] = useState("");
-  const [signInOpen, setSignInOpen] = useState(false);
-  const [signUpOpen, setSignUpOpen] = useState(false);
 
   const handleScroll = () => {
     setSticky(window.scrollY >= 80);
@@ -41,16 +36,18 @@ const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 z-40 w-full pb-5 transition-all duration-300 ${
-          sticky ? " shadow-lg bg-background pt-5" : "shadow-none pt-7"
+        className={`fixed top-0 z-40 w-full pb-4 transition-all duration-300 border-b ${
+          sticky
+            ? "bg-background/90 backdrop-blur-md border-white/10 pt-3"
+            : "bg-background/70 backdrop-blur-sm border-transparent pt-4"
         }`}
       >
         <div className="lg:py-0 py-2">
-          <div className="container px-4 flex items-center justify-between">
-            <div onClick={() => setActiveHash("")} className="cursor-pointer">
+          <div className="container px-4 grid grid-cols-[1fr_auto] lg:grid-cols-[auto_1fr_auto] items-center gap-5 xl:gap-8">
+            <div onClick={() => setActiveHash("")} className="cursor-pointer justify-self-start shrink-0">
               <Logo />
             </div>
-            <nav className="hidden lg:flex grow items-center gap-8 justify-center">
+            <nav className="hidden lg:flex items-center gap-5 xl:gap-7 justify-center min-w-0">
               {headerData.map((item, index) => (
                 <HeaderLink
                   key={index}
@@ -60,23 +57,24 @@ const Header: React.FC = () => {
                 />
               ))}
             </nav>
-            <div className="lg:flex hidden gap-4 h-10">
+            <div className="justify-self-end flex items-center gap-4">
+              <div className="hidden lg:flex gap-4 h-10">
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => setSignInOpen(true)}
+                render={<Link href="/careers" />}
                 className="bg-transparent border border-primary! text-primary px-4 py-2 rounded-lg hover:bg-primary! hover:text-white h-full transition-all duration-300"
               >
-                Sign In
+                Careers
               </Button>
               <Button
                 size="lg"
                 render={<Link href="/contact" />}
                 className="bg-primary text-background px-4 py-2 rounded-lg hover:bg-transparent hover:text-primary h-full transition-all duration-300 font-medium hover:border hover:border-primary"
               >
-                Request access
+                Contact
               </Button>
-            </div>
+              </div>
 
             <Sheet open={navbarOpen} onOpenChange={setNavbarOpen}>
               <SheetTrigger
@@ -117,13 +115,11 @@ const Header: React.FC = () => {
                     <Button
                       variant="outline"
                       size="lg"
-                      onClick={() => {
-                        setNavbarOpen(false);
-                        setSignInOpen(true);
-                      }}
+                      render={<Link href="/careers" />}
+                      onClick={() => setNavbarOpen(false)}
                       className="w-full bg-transparent border border-primary! text-primary rounded-lg hover:bg-primary! hover:text-white"
                     >
-                      Sign In
+                      Careers
                     </Button>
                     <Button
                       size="lg"
@@ -131,25 +127,16 @@ const Header: React.FC = () => {
                       onClick={() => setNavbarOpen(false)}
                       className="w-full bg-primary text-background rounded-lg hover:bg-transparent hover:text-primary border border-primary font-medium"
                     >
-                      Request access
+                      Contact
                     </Button>
                   </div>
                 </nav>
               </SheetContent>
             </Sheet>
+            </div>
           </div>
         </div>
       </header>
-      <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
-        <DialogContent className="bg-background border-border max-w-md w-full overflow-y-auto max-h-screen">
-          <Signin />
-        </DialogContent>
-      </Dialog>
-      <Dialog open={signUpOpen} onOpenChange={setSignUpOpen}>
-        <DialogContent className="bg-background border-border max-w-md w-full overflow-y-auto max-h-screen">
-          <SignUp />
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

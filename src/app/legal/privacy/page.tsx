@@ -8,17 +8,22 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main>
-      <HeroSub title="Privacy" />
+      <HeroSub
+        title="Privacy"
+        subtitle="How Conveyor Finance handles information submitted through this website."
+      />
       <section className="py-16">
-        <div className="container px-4 max-w-3xl space-y-4 text-white/70 leading-relaxed">
+        <div className="container px-4 max-w-3xl space-y-5 text-white/70 leading-relaxed">
           <p>
-            Conveyor collects only what is required to operate the public site
-            and access-request forms: contact details you submit, and standard
-            technical logs.
+            This site collects contact details you choose to send (for example
+            via email to hello@ or careers@), and standard server or analytics
+            logs needed to operate the website.
           </p>
           <p>
-            We do not sell personal data. Access requests are used to evaluate
-            and provision professional accounts.
+            Career applications are used only to evaluate hiring. We do not
+            sell personal data. We aim to retain application material only as
+            long as needed for recruiting, then delete or archive it according
+            to applicable law.
           </p>
           <p>
             Questions: privacy@conveyor.finance

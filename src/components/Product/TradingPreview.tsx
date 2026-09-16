@@ -16,13 +16,12 @@ const TradingPreview = () => {
               Charts, watchlists, alerts, and backtests
             </h2>
             <p className="text-white/60 text-lg mt-4 max-w-2xl">
-              Professional execution UI: live tickers, depth, watchlists,
-              price alerts, and SMA backtests — the workflow desks already
-              expect.
+              Product study of a professional trading layout. Tickers and depth
+              on this page are illustrative.
             </p>
           </div>
-          <Link href="/trade" className="text-primary font-medium hover:underline">
-            Explore trading UI →
+          <Link href="/work" className="text-primary font-medium hover:underline">
+            All selected work →
           </Link>
         </div>
 

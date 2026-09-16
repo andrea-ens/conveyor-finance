@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { headerData } from "../Header/Navigation/menuData";
 import { footerlabels } from "@/app/api/data";
 import { Icon } from "@iconify/react";
 import Logo from "../Header/Logo";
@@ -8,95 +7,101 @@ import { Separator } from "@/components/ui/separator";
 
 const Footer: FC = () => {
   return (
-    <footer className="pt-16 bg-background">
+    <footer className="pt-20 bg-background border-t border-white/10">
       <div className="container px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-11 lg:gap-20 md:gap-6 sm:gap-12 gap-6  pb-16">
-          <div className="lg:col-span-4 md:col-span-6 col-span-6 flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16">
+          <div className="md:col-span-5 flex flex-col gap-6">
             <Logo />
-            <p className="text-white/60">
-              Conveyor moves digital capital with institutional clarity —
-              portfolio intelligence, DeFi liquidity, and professional
-              execution at conveyor.finance.
+            <p className="text-white/55 max-w-sm leading-relaxed">
+              Conveyor Finance. Corporate website for on-chain trading
+              infrastructure. Not a live exchange, custodian, or brokerage.
             </p>
-            <div className="flex gap-6 items-center relative z-1">
-              <Link href="https://x.com/" className="group" aria-label="X">
-                <Icon
-                  icon="fa6-brands:x-twitter"
-                  width="24"
-                  height="24"
-                  className="text-white group-hover:text-primary"
-                />
+            <div className="flex gap-5 items-center">
+              <Link
+                href="https://github.com/andrea-ens"
+                className="text-white/70 hover:text-primary"
+                aria-label="GitHub"
+              >
+                <Icon icon="fa6-brands:github" width="22" height="22" />
               </Link>
-              <Link href="https://www.linkedin.com/" className="group" aria-label="LinkedIn">
-                <Icon
-                  icon="fa6-brands:linkedin-in"
-                  width="24"
-                  height="24"
-                  className="text-white group-hover:text-primary"
-                />
-              </Link>
-              <Link href="https://github.com/" className="group" aria-label="GitHub">
-                <Icon
-                  icon="fa6-brands:github"
-                  width="24"
-                  height="24"
-                  className="text-white group-hover:text-primary"
-                />
+              <Link
+                href="https://www.linkedin.com/"
+                className="text-white/70 hover:text-primary"
+                aria-label="LinkedIn"
+              >
+                <Icon icon="fa6-brands:linkedin-in" width="22" height="22" />
               </Link>
             </div>
           </div>
-          <div className="lg:col-span-2 md:col-span-3 col-span-6">
-            <h4 className="text-white mb-4 font-medium text-24">Platform</h4>
-            <ul>
-              {headerData.map((item, index) => (
-                <li key={index} className="pb-4">
-                  <Link
-                    href={item.href}
-                    className="text-white/60 hover:text-primary text-17"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+          <div className="md:col-span-2">
+            <h4 className="text-white mb-4 font-medium">Company</h4>
+            <ul className="space-y-3 text-white/55">
+              <li>
+                <Link href="/company" className="hover:text-primary">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/company#team" className="hover:text-primary">
+                  Team
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-primary">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/careers" className="hover:text-primary">
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-primary">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
-          <div className="lg:col-span-2 md:col-span-3 col-span-6">
-            <h4 className="text-white mb-4 font-medium text-24">Legal</h4>
-            <ul>
-              {footerlabels.map((item, index) => (
-                <li key={index} className="pb-4">
-                  <Link
-                    href={item.herf}
-                    className="text-white/60 hover:text-primary text-17"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+          <div className="md:col-span-2">
+            <h4 className="text-white mb-4 font-medium">Work</h4>
+            <ul className="space-y-3 text-white/55">
+              <li>
+                <Link href="/work" className="hover:text-primary">
+                  Selected work
+                </Link>
+              </li>
             </ul>
           </div>
-          <div className="lg:col-span-3 md:col-span-4 col-span-6">
-            <h3 className="text-white text-24 font-medium mb-4">
-              Domain
-            </h3>
-            <p className="text-white/60 mb-4">
-              Primary site:{" "}
-              <Link href="https://conveyor.finance" className="text-primary">
-                conveyor.finance
-              </Link>
-            </p>
-            <Link
-              href="mailto:hello@conveyor.finance"
-              className="text-white hover:text-primary"
-            >
+          <div className="md:col-span-3">
+            <h4 className="text-white mb-4 font-medium">Legal</h4>
+            <ul className="space-y-3 text-white/55">
+              {footerlabels
+                .filter((item) =>
+                  ["/legal/terms", "/legal/privacy", "/legal/disclosures"].includes(
+                    item.herf
+                  )
+                )
+                .map((item) => (
+                  <li key={item.herf}>
+                    <Link href={item.herf} className="hover:text-primary">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+            <p className="text-white/45 text-sm mt-6 leading-relaxed">
               hello@conveyor.finance
-            </Link>
+              <br />
+              careers@conveyor.finance
+            </p>
           </div>
         </div>
         <Separator className="bg-white/10" />
-        <p className="text-white/40 text-center py-8">
-          © 2026 Conveyor Finance. All rights reserved.
-        </p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-8 text-white/40 text-sm">
+          <p>© 2026 Conveyor Finance. All rights reserved.</p>
+          <p>conveyor.finance</p>
+        </div>
       </div>
     </footer>
   );

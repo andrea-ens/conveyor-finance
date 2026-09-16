@@ -1,18 +1,20 @@
 import type { MetadataRoute } from "next";
+import { careerRoles } from "@/app/api/careers";
+import { blogPosts, blogTopics } from "@/app/api/blog";
+import { projects } from "@/app/api/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://conveyor.finance";
   const routes = [
     "",
-    "/product",
-    "/dashboard",
-    "/trade",
+    "/work",
+    ...projects.map((project) => `/work/${project.slug}`),
     "/company",
+    "/blog",
+    ...blogTopics.map((topic) => `/blog/topic/${topic.slug}`),
+    ...blogPosts.map((post) => `/blog/${post.slug}`),
     "/careers",
-    "/careers/senior-frontend-engineer",
-    "/careers/defi-full-stack-engineer",
-    "/careers/trading-ui-engineer",
-    "/careers/people-operations-lead",
+    ...careerRoles.map((role) => `/careers/${role.slug}`),
     "/contact",
     "/legal/terms",
     "/legal/privacy",
@@ -22,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `${base}${route}`,
     lastModified: new Date(),
-    changeFrequency: "weekly",
+    changeFrequency: "weekly" as const,
     priority: route === "" ? 1 : 0.7,
   }));
 }

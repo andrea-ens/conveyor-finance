@@ -10,39 +10,29 @@ import { PlusIcon } from "lucide-react";
 
 const faqData = [
   {
-    question: "What is Conveyor?",
+    question: "What is Conveyor Finance?",
     answer:
-      "Conveyor is institutional crypto infrastructure: a corporate platform, DeFi dashboard, and professional trading workspace published at conveyor.finance.",
+      "A founder-led company building on-chain trading infrastructure and the public organization around it. conveyor.finance is the corporate website — not a live brokerage.",
   },
   {
-    question: "Who is Conveyor built for?",
+    question: "Is this a licensed exchange?",
     answer:
-      "Funds, market-making desks, treasuries, and operators who need a single view of portfolio, liquidity, and execution.",
+      "No. This domain does not operate a matching engine, take custody, or provide investment advice. Product studies are labeled and figures are illustrative.",
   },
   {
-    question: "Does Conveyor replace our exchange accounts?",
+    question: "Who leads the company?",
     answer:
-      "No. Conveyor sits above wallets and venues so you can observe, route, and control activity without ripping out existing connectivity.",
+      "Andrea is Founder and CEO, and acting CTO. Technical direction stays with the CEO until a dedicated CTO seat is justified. Open engineering and product roles are listed on Careers.",
   },
   {
-    question: "Which chains and assets are supported?",
+    question: "What work do you show?",
     answer:
-      "The dashboard is designed for Ethereum, Arbitrum, Optimism, Polygon, and Base, with major spot markets in the trading terminal.",
+      "Case studies with descriptions and screenshots. We do not publish deployed app links as if they were production venues.",
   },
   {
-    question: "Is this financial advice or a live brokerage?",
+    question: "How do I apply or get in touch?",
     answer:
-      "This corporate site and product previews are for demonstration. Trading involves risk. Conveyor does not provide investment advice.",
-  },
-  {
-    question: "How do we get access?",
-    answer:
-      "Request access via conveyor.finance/contact. We provision dashboard and trading environments per organization.",
-  },
-  {
-    question: "Are you hiring?",
-    answer:
-      "Yes. Careers is a primary company surface. See open roles at conveyor.finance/careers or write to careers@conveyor.finance.",
+      "Roles: conveyor.finance/careers and careers@conveyor.finance. Everything else: hello@conveyor.finance or the contact page.",
   },
 ];
 
@@ -52,14 +42,14 @@ const Faq = () => {
       <div className="container">
         <div className=" mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-green-400 uppercase text-sm">
-              Popular questions
+            <p className="text-primary uppercase text-sm tracking-[0.16em]">
+              Company
             </p>
-            <h2 className="text-3xl md:text-4xl font-semibold mt-2">
-              Learn more about Conveyor
+            <h2 className="text-3xl md:text-4xl font-medium mt-2">
+              Questions we expect
             </h2>
-            <p className="text-gray-400 mt-2">
-              Infrastructure for professional digital-asset operations
+            <p className="text-white/50 mt-2">
+              Short answers. Longer ones live on Company, Blog, and Careers.
             </p>
           </div>
           <Accordion className="space-y-4">

@@ -8,123 +8,190 @@ export type CareerRole = {
   about: string;
   responsibilities: string[];
   requirements: string[];
+  niceToHave: string[];
 };
 
 export const careerValues = [
   {
-    title: "Operators first",
-    text: "We hire people who have sat on a desk, shipped production systems, or both. Conveyor is built for operators by operators.",
+    title: "Craft over ceremony",
+    text: "We hire people who ship. Protocols, services, and the public site should look and feel like they belong to the same company.",
   },
   {
-    title: "Clarity over theatre",
-    text: "Markets are noisy. We write, design, and decide in plain language. If a number cannot be explained, it does not ship.",
+    title: "Plain language",
+    text: "Crypto is noisy. We write for operators and candidates the same way: specific, honest, and free of theatre.",
   },
   {
-    title: "Ownership without ceremony",
-    text: "Small teams, short loops, high trust. You will own a surface — website, dashboard, or trading — end to end.",
+    title: "Small team, real ownership",
+    text: "You will own a surface end to end. The founder is CEO and acting CTO — you will work with that person, not a layer of managers.",
+  },
+];
+
+export const hiringSteps = [
+  {
+    step: "01",
+    title: "Apply",
+    text: "Submit the role form or email careers@conveyor.finance. Include a portfolio or GitHub and two sentences on what you would own in the first 90 days.",
+  },
+  {
+    step: "02",
+    title: "Intro conversation",
+    text: "A 30-minute call with the founder. We talk through your work, the role, and whether Conveyor is the right environment.",
+  },
+  {
+    step: "03",
+    title: "Work sample",
+    text: "A scoped exercise or walkthrough of existing work. We do not ask for unpaid production. Time-boxed, relevant to the role.",
+  },
+  {
+    step: "04",
+    title: "Offer",
+    text: "We share compensation, equity, start date, and written expectations. You should have time to decide without pressure.",
   },
 ];
 
 export const careerBenefits = [
-  "Competitive compensation with meaningful equity",
-  "Remote-first, with optional hubs",
-  "Hardware and tooling of your choice",
-  "Learning budget for markets, security, and design",
+  "Competitive salary and meaningful equity, discussed before an offer is issued",
+  "Remote-first, with overlap in European and US time zones",
+  "Hardware and software of your choice",
+  "Learning budget for markets, security, design, and writing",
   "Paid time off and parental leave",
-  "Direct access to founders and product",
+  "Direct access to the founder — no ticket queue for product or technical decisions",
 ];
 
 export const careerRoles: CareerRole[] = [
   {
-    slug: "senior-frontend-engineer",
-    title: "Senior Frontend Engineer",
+    slug: "senior-blockchain-engineer",
+    title: "Senior Blockchain Engineer",
+    team: "Protocol",
+    location: "Remote",
+    type: "Full-time",
+    summary:
+      "Solidity, EVM, and protocol work: design, implement, and review the on-chain systems Conveyor ships.",
+    about:
+      "You will own protocol quality with the founder (acting CTO). This is a senior individual-contributor seat — not a CTO hire. You write and review Solidity, reason about EVM constraints, and keep on-chain behavior honest in public.",
+    responsibilities: [
+      "Design and implement Solidity contracts and protocol upgrades",
+      "Review threat models, invariants, and upgrade paths before anything is treated as production",
+      "Work with backend and frontend on ABIs, events, and indexing",
+      "Document what is on-chain versus off-chain, and what is not yet deployed",
+    ],
+    requirements: [
+      "Production Solidity and EVM experience",
+      "Comfort with testing, audits, and adversarial review",
+      "Ability to explain protocol trade-offs in writing",
+      "Bias toward correctness over shipping unverified complexity",
+    ],
+    niceToHave: [
+      "Prior DEX, escrow, or P2P exchange protocol work",
+      "Experience with Foundry, Hardhat, or equivalent",
+    ],
+  },
+  {
+    slug: "backend-engineer",
+    title: "Backend Engineer",
+    team: "Platform",
+    location: "Remote",
+    type: "Full-time",
+    summary:
+      "Trading APIs, databases, and services that sit behind the product — reliable, observable, and boring in the right ways.",
+    about:
+      "Conveyor’s product studies become real when the service layer is real. You will design APIs, data stores, and jobs for market and on-chain data, without pretending we have a live brokerage until we do.",
+    responsibilities: [
+      "Build and operate trading and portfolio APIs and supporting services",
+      "Model databases and caches for market, wallet, and protocol data",
+      "Define contracts with frontend and protocol engineers",
+      "Instrument latency, errors, and data freshness",
+    ],
+    requirements: [
+      "Production backend experience (TypeScript, Go, or similar)",
+      "Strong database and API design judgment",
+      "Comfort with queues, jobs, and failure modes",
+      "Clear written communication",
+    ],
+    niceToHave: [
+      "Market-data or order-routing systems",
+      "Indexing chains or subgraphs into application databases",
+    ],
+  },
+  {
+    slug: "frontend-web3-engineer",
+    title: "Frontend / Web3 Engineer",
     team: "Product",
     location: "Remote",
     type: "Full-time",
     summary:
-      "Build the conveyor.finance corporate site and operator-facing surfaces in Next.js, TypeScript, and shadcn/ui.",
+      "React, Next.js, and wallet integration — the marketing site and operator-facing Web3 surfaces.",
     about:
-      "You will own the public website and shared UI system that introduces desks to Conveyor. This is a high-visibility role: careers, product storytelling, and the first impression of the brand.",
+      "You own the client: conveyor.finance, product studies, and wallet-connected flows. Wallet connect, transaction states, and layout quality are the job. You work directly with the founder on product.",
     responsibilities: [
-      "Ship and maintain the corporate website and marketing product previews",
-      "Raise the quality bar for layout, accessibility, and performance",
-      "Partner with design and product on careers, company, and product pages",
-      "Keep the stack typed, documented, and easy for the next engineer",
+      "Ship Next.js and React surfaces with a high craft bar",
+      "Integrate wallets (wagmi, viem, or similar) with honest loading and error states",
+      "Keep careers, work, and company pages as sharp as the product UI",
+      "Partner with protocol and backend on types and user-visible failure",
     ],
     requirements: [
-      "Deep experience with Next.js App Router and TypeScript",
-      "A portfolio of polished, production marketing or fintech UIs",
-      "Comfort working against live market and DeFi product context",
-      "Taste for institutional tone without losing warmth",
+      "Production React and Next.js (App Router) experience",
+      "Hands-on Web3 frontend: wallets, transactions, chain switching",
+      "Strong TypeScript and visual judgment",
+      "Comfort in a small team without a large design org",
+    ],
+    niceToHave: [
+      "Trading or DeFi dashboard UIs",
+      "Accessibility and performance work on marketing sites",
     ],
   },
   {
-    slug: "defi-full-stack-engineer",
-    title: "DeFi Full-Stack Engineer",
-    team: "Dashboard",
+    slug: "devops-security-engineer",
+    title: "DevOps / Security Engineer",
+    team: "Infrastructure",
     location: "Remote",
     type: "Full-time",
     summary:
-      "Own the multi-chain portfolio dashboard: net worth, P&L, positions, and liquidity analytics.",
+      "Cloud, CI/CD, infrastructure, and monitoring — plus the security bar for keys, deploys, and production access.",
     about:
-      "The dashboard is Conveyor's application layer. You will turn wallet, RPC, and subgraph data into a desk-grade book that operators trust every morning.",
+      "We will not run production trading infrastructure on hope. You own how we build, deploy, observe, and lock down environments. This seat exists so protocol and product engineers can move without leaving the company exposed.",
     responsibilities: [
-      "Build portfolio, positions, and LP views with live refresh",
-      "Integrate wagmi/viem and query layers without leaking complexity into the UI",
-      "Instrument performance, error states, and empty states",
-      "Work with trading engineers on shared types and risk displays",
+      "Design cloud infrastructure, CI/CD, and environments",
+      "Monitoring, alerting, and incident response for services we actually run",
+      "Secrets, key handling, least-privilege access, and deploy controls",
+      "Partner with protocol and backend on threat models that include ops, not only contracts",
     ],
     requirements: [
-      "Production experience with on-chain frontends (wagmi, viem, or similar)",
-      "Strong TypeScript and Next.js skills",
-      "Ability to reason about stale-while-revalidate data and P&L accuracy",
-      "Familiarity with Ethereum L2s (Arbitrum, Base, Optimism, Polygon)",
+      "Production cloud and CI/CD experience",
+      "Practical security: IAM, secrets, network boundaries, audit trails",
+      "Comfort with infrastructure as code",
+      "Calm, written incident communication",
+    ],
+    niceToHave: [
+      "SOC2 or similar readiness work",
+      "On-chain deploy pipelines and hardware-wallet operational practice",
     ],
   },
   {
-    slug: "trading-ui-engineer",
-    title: "Trading UI Engineer",
-    team: "Execution",
+    slug: "product-manager",
+    title: "Product Manager",
+    team: "Product",
     location: "Remote",
     type: "Full-time",
     summary:
-      "Design and implement the professional trading workspace: charts, watchlists, alerts, and backtests.",
+      "Turn vision into a sequenced product: what we build, what we do not claim, and how operators experience Conveyor.",
     about:
-      "Execution UI is where Conveyor either feels like a real desk or it does not. You will ship information-dense, keyboard-first trading surfaces with live feeds.",
+      "The founder owns vision and technical direction. You own the product loop: discovery, sequencing, specs, and whether a surface is ready to be public. You keep marketing, protocol, and engineering on one story.",
     responsibilities: [
-      "Build chart, order book, watchlist, and alert experiences",
-      "Integrate live price feeds and keep the UI honest under load",
-      "Prototype compare and backtest workflows with product",
-      "Obsess over latency, tabular numbers, and visual hierarchy",
+      "Write clear problem statements, specs, and release criteria",
+      "Sequence protocol, backend, and frontend work without theatre",
+      "Keep public claims aligned with what is actually built",
+      "Talk to operators and candidates; bring signal back to the founder",
     ],
     requirements: [
-      "Shipped trading, markets, or high-frequency data UIs",
-      "Experience with real-time websockets and charting libraries",
-      "Strong visual craft in dark, dense interfaces",
-      "Comfort collaborating with backend and market-data owners",
+      "Shipped product in crypto, fintech, or similarly constrained domains",
+      "Excellent writing and facilitation",
+      "Comfort saying no, including to the founder",
+      "Ability to work with engineers without becoming a ticket clerk",
     ],
-  },
-  {
-    slug: "people-operations-lead",
-    title: "People Operations Lead",
-    team: "Company",
-    location: "Remote",
-    type: "Full-time",
-    summary:
-      "Build Conveyor's hiring engine: careers page, process, and candidate experience from first click to offer.",
-    about:
-      "Careers is a primary growth surface for Conveyor. You will own how operators discover us, how we interview, and how new teammates land.",
-    responsibilities: [
-      "Run the careers page content and hiring pipeline",
-      "Design a rigorous, respectful interview process",
-      "Partner with hiring managers across product, dashboard, and trading",
-      "Report on funnel quality and time-to-offer",
-    ],
-    requirements: [
-      "Experience hiring for technical and markets roles",
-      "Excellent written communication",
-      "Comfort in an early-stage, high-ownership environment",
-      "Bias toward candidates who have operated, not only advised",
+    niceToHave: [
+      "Trading, DeFi, or wallet product experience",
+      "Early-stage company experience (first PM or small team)",
     ],
   },
 ];

@@ -13,26 +13,29 @@ const font = DM_Sans({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL("https://conveyor.finance"),
   title: {
-    default: "Conveyor — Institutional crypto infrastructure",
-    template: "%s | Conveyor",
+    default: "Conveyor Finance — On-chain trading infrastructure",
+    template: "%s | Conveyor Finance",
   },
   description:
-    "Conveyor is the operating system for digital-asset desks: DeFi portfolio intelligence, live trading, and risk controls — built for conveyor.finance.",
+    "Conveyor Finance is a founder-led company building on-chain trading infrastructure. Corporate site: work, careers, and company at conveyor.finance.",
   keywords: [
     "Conveyor",
     "crypto",
-    "DeFi",
-    "trading",
-    "portfolio dashboard",
+    "on-chain trading",
+    "careers",
     "conveyor.finance",
   ],
   openGraph: {
-    title: "Conveyor — Institutional crypto infrastructure",
+    title: "Conveyor Finance — On-chain trading infrastructure",
     description:
-      "Portfolio, liquidity, and execution in one professional stack.",
+      "Corporate website for Conveyor Finance: selected work, organization, and careers.",
     url: "https://conveyor.finance",
     siteName: "Conveyor",
     type: "website",
+  },
+  icons: {
+    icon: "/images/logo/icon.png",
+    apple: "/images/logo/icon.png",
   },
   alternates: {
     canonical: "https://conveyor.finance",

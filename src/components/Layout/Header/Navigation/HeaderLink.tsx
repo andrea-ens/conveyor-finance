@@ -2,23 +2,14 @@
 import Link from "next/link";
 import { HeaderItem } from "../../../../types/menu";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const HeaderLink: React.FC<{
   item: HeaderItem;
   activeHash: string;
   setActiveHash: (hash: string) => void;
 }> = ({ item, activeHash, setActiveHash }) => {
-  const [submenuOpen, setSubmenuOpen] = useState(false);
   const path = usePathname();
-  const handleMouseEnter = () => {
-    if (item.submenu) {
-      setSubmenuOpen(true);
-    }
-  };
-  const handleMouseLeave = () => {
-    setSubmenuOpen(false);
-  };
 
   useEffect(() => {
     setActiveHash(window.location.hash);
@@ -33,24 +24,39 @@ const HeaderLink: React.FC<{
     }
   };
 
-  const isActive = (href: string) => {
-    if (href.startsWith("/#")) {
-      return path === "/" && activeHash === href.replace("/", "");
+  const pathName = path ?? "";
+
+  const pathMatches = (href: string) => {
+    if (href.startsWith("http")) return false;
+    const base = href.split("#")[0];
+    if (base === "/blog") {
+      return pathName === "/blog" || pathName.startsWith("/blog/");
     }
-    return path === href;
+    return pathName === base;
   };
 
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) {
+      return pathName === "/" && activeHash === href.replace("/", "");
+    }
+    if (href.includes("#")) {
+      const [pathname, hash] = href.split("#");
+      return pathName === pathname && activeHash === `#${hash}`;
+    }
+    return pathMatches(href);
+  };
+
+  const isParentActive =
+    pathMatches(item.href) ||
+    Boolean(item.submenu?.some((subItem) => pathMatches(subItem.href)));
+
   return (
-    <div
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className="relative group">
       <Link
         href={item.href}
         onClick={() => handleLinkClick(item.href)}
-        className={`text-17 relative flex font-medium transition-all duration-300 hover:text-primary capitalized ${
-          isActive(item.href) ? "text-primary" : "text-muted"
+        className={`text-17 relative flex whitespace-nowrap font-medium transition-all duration-300 hover:text-primary capitalized ${
+          isParentActive ? "text-primary" : "text-muted"
         }`}
       >
         {item.label}
@@ -72,27 +78,32 @@ const HeaderLink: React.FC<{
           </svg>
         )}
       </Link>
-      {submenuOpen && (
-        <div
-          className={`absolute py-2 left-0 mt-0.5 w-60 bg-white dark:text-white shadow-lg rounded-lg `}
-          data-aos="fade-up"
-          data-aos-duration="500"
-        >
-          {item.submenu?.map((subItem, index) => (
-            <Link
-              key={index}
-              href={subItem.href}
-              className={`block px-4 py-2 transition-all duration-300 ${
-                isActive(subItem.href)
-                  ? "bg-primary/10 text-primary"
-                  : "text-black dark:text-white hover:bg-primary/10 hover:text-primary"
-              }`}
-            >
-              {subItem.label}
-            </Link>
-          ))}
+      {item.submenu ? (
+        <div className="absolute z-50 left-0 top-full pt-3 hidden group-hover:block">
+          <div className="w-56 py-2 rounded-xl border border-white/20 bg-[#111816] shadow-[0_16px_48px_rgba(0,0,0,0.65)]">
+            {item.submenu.map((subItem, index) => (
+              <Link
+                key={index}
+                href={subItem.href}
+                target={subItem.href.startsWith("http") ? "_blank" : undefined}
+                rel={
+                  subItem.href.startsWith("http")
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+                onClick={() => handleLinkClick(subItem.href)}
+                className={`block mx-1 rounded-lg px-4 py-2.5 text-[15px] font-medium transition-colors ${
+                  isActive(subItem.href)
+                    ? "bg-primary/15 text-primary"
+                    : "text-white hover:bg-primary/15 hover:text-primary"
+                }`}
+              >
+                {subItem.label}
+              </Link>
+            ))}
+          </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
