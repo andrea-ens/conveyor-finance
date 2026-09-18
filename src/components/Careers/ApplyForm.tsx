@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,34 +12,51 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+type Status = "idle" | "submitting" | "sent" | "error";
+
 const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<"idle" | "opened">("idle");
+  const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState("");
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const url = String(data.get("url") || "").trim();
-    const note = String(data.get("note") || "").trim();
+    const payload = {
+      roleTitle,
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      url: String(data.get("url") || "").trim(),
+      note: String(data.get("note") || "").trim(),
+      website: String(data.get("website") || "").trim(),
+    };
 
-    const subject = encodeURIComponent(`Application: ${roleTitle} — ${name}`);
-    const body = encodeURIComponent(
-      [
-        `Role: ${roleTitle}`,
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Portfolio or GitHub: ${url || "—"}`,
-        "",
-        "Why Conveyor, and what would you own in the first 90 days:",
-        note,
-      ].join("\n")
-    );
+    setStatus("submitting");
+    setError("");
 
-    window.location.href = `mailto:careers@conveyor.finance?subject=${subject}&body=${body}`;
-    setStatus("opened");
+    try {
+      const response = await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json()) as { ok?: boolean; error?: string };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Could not send the application.");
+      }
+
+      setStatus("sent");
+      form.reset();
+      toast.success("Application sent to careers@conveyor.finance");
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not send the application.";
+      setStatus("error");
+      setError(message);
+      toast.error(message);
+    }
   };
 
   return (
@@ -56,76 +74,97 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
         open={open}
         onOpenChange={(next) => {
           setOpen(next);
-          if (!next) setStatus("idle");
+          if (!next) {
+            setStatus("idle");
+            setError("");
+          }
         }}
       >
         <DialogContent
           overlayClassName="bg-black/80 backdrop-blur-md"
-          className="sm:max-w-[42rem] w-[calc(100%-2rem)] max-h-[90vh] overflow-y-auto p-0 gap-0 rounded-2xl border border-white/15 ring-0 bg-transparent"
+          className="w-[min(42rem,calc(100%-2rem))] !max-w-[42rem] h-[min(54rem,calc(100vh-4rem))] max-h-[calc(100vh-4rem)] overflow-hidden p-0 gap-0 rounded-2xl border border-white/15 ring-0 bg-transparent"
           style={{ backgroundColor: "#111816" }}
         >
-          <div className="p-9 sm:p-12 space-y-8" style={{ backgroundColor: "#111816" }}>
-          <DialogHeader>
-            <p className="text-primary text-sm uppercase tracking-wide">
-              Apply
-            </p>
-            <DialogTitle className="text-white text-2xl sm:text-3xl font-medium">
-              {roleTitle}
-            </DialogTitle>
-            <DialogDescription className="text-white/55 text-base leading-relaxed">
-              Applications are sent to careers@conveyor.finance from your email
-              client. We do not run a silent inbox on this page. We aim to reply
-              within seven business days.
-            </DialogDescription>
-          </DialogHeader>
+          <div
+            className="h-full overflow-y-auto p-9 sm:p-12 space-y-8"
+            style={{ backgroundColor: "#111816" }}
+          >
+            <DialogHeader>
+              <p className="text-primary text-sm uppercase tracking-wide">
+                Apply
+              </p>
+              <DialogTitle className="text-white text-2xl sm:text-3xl font-medium">
+                {roleTitle}
+              </DialogTitle>
+              <DialogDescription className="text-white/55 text-base leading-relaxed">
+                This form is delivered to careers@conveyor.finance. We aim to
+                reply within seven business days.
+              </DialogDescription>
+            </DialogHeader>
 
-          <form onSubmit={onSubmit} className="space-y-5">
-            <Input
-              required
-              name="name"
-              autoComplete="name"
-              placeholder="Full name"
-              className="bg-transparent border-white/15 text-white h-14 text-base px-4"
-            />
-            <Input
-              required
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="Email"
-              className="bg-transparent border-white/15 text-white h-14 text-base px-4"
-            />
-            <Input
-              name="url"
-              type="url"
-              placeholder="Portfolio or GitHub URL"
-              className="bg-transparent border-white/15 text-white h-14 text-base px-4"
-            />
-            <textarea
-              required
-              name="note"
-              rows={8}
-              placeholder="Why Conveyor, and what would you own in the first 90 days?"
-              className="w-full rounded-md border border-white/15 bg-transparent px-4 py-3 text-base text-white placeholder:text-white/40 min-h-[12rem]"
-            />
-            <Button
-              type="submit"
-              className="w-full bg-primary text-background h-14 text-base"
-            >
-              Open application email
-            </Button>
-            {status === "opened" ? (
-              <p className="text-primary text-sm text-center">
-                If your mail app did not open, write to careers@conveyor.finance
-                with the role in the subject line.
+            {status === "sent" ? (
+              <p className="text-primary text-base leading-relaxed">
+                Application received. Check that you used an email you can reply
+                from — we will write back from careers@conveyor.finance.
               </p>
             ) : (
-              <p className="text-white/40 text-sm text-center leading-relaxed">
-                Equal opportunity employer. We review applications for hiring
-                only. Request accommodations at careers@conveyor.finance.
-              </p>
+              <form onSubmit={onSubmit} className="space-y-5">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute left-[-10000px] h-px w-px overflow-hidden"
+                />
+                <Input
+                  required
+                  name="name"
+                  autoComplete="name"
+                  placeholder="Full name"
+                  className="bg-transparent border-white/15 text-white h-14 text-base px-4"
+                />
+                <Input
+                  required
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Email"
+                  className="bg-transparent border-white/15 text-white h-14 text-base px-4"
+                />
+                <Input
+                  name="url"
+                  type="url"
+                  placeholder="Linkedin, Portfolio or GitHub URL"
+                  className="bg-transparent border-white/15 text-white h-14 text-base px-4"
+                />
+                <textarea
+                  required
+                  name="note"
+                  rows={8}
+                  placeholder="Why Conveyor Finance, and what would you own in the first 90 days?"
+                  className="w-full rounded-md border border-white/15 bg-transparent px-4 py-3 text-base text-white placeholder:text-white/40 min-h-[12rem]"
+                />
+                <Button
+                  type="submit"
+                  disabled={status === "submitting"}
+                  className="w-full bg-primary text-background h-14 text-base disabled:opacity-60"
+                >
+                  {status === "submitting"
+                    ? "Sending…"
+                    : "Send to careers@conveyor.finance"}
+                </Button>
+                {status === "error" ? (
+                  <p className="text-red-400 text-sm text-center">{error}</p>
+                ) : (
+                  <p className="text-white/40 text-sm text-center leading-relaxed">
+                    Equal opportunity employer. We review applications for
+                    hiring only. Request accommodations at
+                    careers@conveyor.finance.
+                  </p>
+                )}
+              </form>
             )}
-          </form>
           </div>
         </DialogContent>
       </Dialog>

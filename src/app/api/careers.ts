@@ -30,7 +30,7 @@ export const hiringSteps = [
   {
     step: "01",
     title: "Apply",
-    text: "Submit the role form or email careers@conveyor.finance. Include a portfolio or GitHub and two sentences on what you would own in the first 90 days.",
+    text: "Submit the role form. Applications are delivered to careers@conveyor.finance. Include a portfolio or GitHub and what you would own in the first 90 days.",
   },
   {
     step: "02",

@@ -89,9 +89,9 @@ export default async function CareerRolePage({ params }: PageProps) {
             </>
           ) : null}
           <p className="text-white/45 text-sm mt-12 leading-relaxed">
-            Conveyor is an equal opportunity employer. Applications go to
-            careers@conveyor.finance. We aim to reply within seven business
-            days.
+            Conveyor is an equal opportunity employer. Applications are
+            delivered to careers@conveyor.finance. We aim to reply within seven
+            business days.
           </p>
           <div className="flex flex-wrap items-center gap-6 mt-10">
             <ApplyForm roleTitle={role.title} />

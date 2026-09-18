@@ -20,7 +20,7 @@ export default function CareersPage() {
     <main>
       <HeroSub
         title="Careers"
-        subtitle="Applications by email to careers@conveyor.finance."
+        subtitle="Applications are delivered to careers@conveyor.finance."
       />
       <section className="pb-10">
         <div className="container px-4 max-w-4xl">

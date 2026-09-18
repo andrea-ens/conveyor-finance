@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const desks = [
   {
@@ -19,33 +20,56 @@ const desks = [
   },
 ];
 
-export default function ContactPage() {
-  const [status, setStatus] = useState<"idle" | "opened">("idle");
+type Status = "idle" | "submitting" | "sent" | "error";
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+export default function ContactPage() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState("");
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const org = String(data.get("org") || "").trim();
-    const note = String(data.get("note") || "").trim();
-    const subject = encodeURIComponent(
-      `Contact: ${name}${org ? ` — ${org}` : ""}`
-    );
-    const body = encodeURIComponent(
-      [`Name: ${name}`, `Email: ${email}`, `Organization: ${org || "—"}`, "", note].join(
-        "\n"
-      )
-    );
-    window.location.href = `mailto:hello@conveyor.finance?subject=${subject}&body=${body}`;
-    setStatus("opened");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      org: String(data.get("org") || "").trim(),
+      note: String(data.get("note") || "").trim(),
+      website: String(data.get("website") || "").trim(),
+    };
+
+    setStatus("submitting");
+    setError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json()) as { ok?: boolean; error?: string };
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Could not send the message.");
+      }
+
+      setStatus("sent");
+      form.reset();
+      toast.success("Message sent to hello@conveyor.finance");
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Could not send the message.";
+      setStatus("error");
+      setError(message);
+      toast.error(message);
+    }
   };
 
   return (
     <main>
       <HeroSub
         title="Contact"
-        subtitle="Write to the company. We read hello@ and careers@ — there is no silent form inbox on this page."
+        subtitle="Messages are delivered to hello@conveyor.finance. Roles go to careers@."
       />
       <section className="py-16 md:py-20">
         <div className="container px-4 grid lg:grid-cols-12 gap-16">
@@ -82,49 +106,66 @@ export default function ContactPage() {
             className="lg:col-span-7 rounded-3xl border border-white/10 bg-white/[0.03] p-8 md:p-10 space-y-5"
           >
             <h2 className="text-white text-2xl font-medium">Message</h2>
-            <Input
-              required
-              name="name"
-              autoComplete="name"
-              placeholder="Full name"
-              className="bg-transparent border-white/15 text-white h-12"
-            />
-            <Input
-              required
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="Email"
-              className="bg-transparent border-white/15 text-white h-12"
-            />
-            <Input
-              name="org"
-              placeholder="Organization (optional)"
-              className="bg-transparent border-white/15 text-white h-12"
-            />
-            <textarea
-              required
-              name="note"
-              rows={6}
-              placeholder="How can we help?"
-              className="w-full rounded-md border border-white/15 bg-transparent px-3 py-3 text-white placeholder:text-white/40"
-            />
-            <Button
-              type="submit"
-              className="w-full bg-primary text-background h-12"
-            >
-              Open email to hello@
-            </Button>
-            {status === "opened" ? (
-              <p className="text-primary text-xs text-center">
-                If your mail app did not open, write to hello@conveyor.finance
-                directly.
+            {status === "sent" ? (
+              <p className="text-primary leading-relaxed">
+                Message received at hello@conveyor.finance. We will reply from
+                that address.
               </p>
             ) : (
-              <p className="text-white/40 text-xs text-center">
-                Opens your email client. We aim to reply within a few business
-                days.
-              </p>
+              <>
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute left-[-10000px] h-px w-px overflow-hidden"
+                />
+                <Input
+                  required
+                  name="name"
+                  autoComplete="name"
+                  placeholder="Full name"
+                  className="bg-transparent border-white/15 text-white h-12"
+                />
+                <Input
+                  required
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Email"
+                  className="bg-transparent border-white/15 text-white h-12"
+                />
+                <Input
+                  name="org"
+                  placeholder="Organization (optional)"
+                  className="bg-transparent border-white/15 text-white h-12"
+                />
+                <textarea
+                  required
+                  name="note"
+                  rows={6}
+                  placeholder="How can we help?"
+                  className="w-full rounded-md border border-white/15 bg-transparent px-3 py-3 text-white placeholder:text-white/40"
+                />
+                <Button
+                  type="submit"
+                  disabled={status === "submitting"}
+                  className="w-full bg-primary text-background h-12 disabled:opacity-60"
+                >
+                  {status === "submitting"
+                    ? "Sending…"
+                    : "Send to hello@conveyor.finance"}
+                </Button>
+                {status === "error" ? (
+                  <p className="text-red-400 text-sm text-center">{error}</p>
+                ) : (
+                  <p className="text-white/40 text-xs text-center">
+                    Delivered to hello@conveyor.finance. We aim to reply within
+                    a few business days.
+                  </p>
+                )}
+              </>
             )}
           </form>
         </div>
