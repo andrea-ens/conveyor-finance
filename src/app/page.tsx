@@ -7,7 +7,9 @@ import SelectedWork from "@/components/Home/SelectedWork";
 import LatestBlog from "@/components/Home/LatestBlog";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: {
+    absolute: "Conveyor Finance",
+  },
   description:
     "Conveyor Finance — corporate site for on-chain trading infrastructure. Work, careers, and company at conveyor.finance.",
 };

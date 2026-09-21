@@ -23,7 +23,7 @@ const Hero = () => {
                 </Badge>
               </div>
               <h1 className="font-medium xl:text-[49px] md:text-6xl sm:text-5xl text-4xl text-white leading-[1.08]">
-                On-chain trading infrastructure, published as a company.
+                Conveyor Finance is a non-custodial, on-chain trading platform.
               </h1>
               <p className="text-white/70 text-lg max-w-xl leading-relaxed">
                 Conveyor Finance is founder-led. This is the corporate website
