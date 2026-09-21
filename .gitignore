@@ -4,7 +4,6 @@ out
 dist
 .DS_Store
 .env
-.env.local
 .env*.local
 _ref-crypgo
 _ref-defi
