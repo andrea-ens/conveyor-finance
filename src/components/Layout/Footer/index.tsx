@@ -18,14 +18,14 @@ const Footer: FC = () => {
             </p>
             <div className="flex gap-5 items-center">
               <Link
-                href="https://github.com/andrea-ens"
+                href="https://github.com/conveyor-finance"
                 className="text-white/70 hover:text-primary"
                 aria-label="GitHub"
               >
                 <Icon icon="fa6-brands:github" width="22" height="22" />
               </Link>
               <Link
-                href="https://www.linkedin.com/"
+                href="https://www.linkedin.com/company/conveyor-finance"
                 className="text-white/70 hover:text-primary"
                 aria-label="LinkedIn"
               >
