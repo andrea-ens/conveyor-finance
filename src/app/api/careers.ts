@@ -4,21 +4,12 @@ export type CareerRole = {
   team: string;
   location: string;
   type: string;
-  schedule: string;
   summary: string;
   about: string;
   responsibilities: string[];
   requirements: string[];
   niceToHave: string[];
 };
-
-export const engagementTypes = ["Full-time", "Part-time", "Contract"] as const;
-
-export type EngagementType = (typeof engagementTypes)[number];
-
-export function isEngagementType(value: string): value is EngagementType {
-  return (engagementTypes as readonly string[]).includes(value);
-}
 
 export const careerValues = [
   {
@@ -54,18 +45,16 @@ export const hiringSteps = [
   {
     step: "04",
     title: "Offer",
-    text: "We share rate, hours (part-time or full-time), contract terms, and written expectations. You should have time to decide without pressure.",
+    text: "We share compensation, equity, start date, and written expectations. You should have time to decide without pressure.",
   },
 ];
 
-export const roleEngagement =
-  "This is a 100% remote contract role. You set your own schedule, whether you are looking for part-time or full-time.";
-
 export const careerBenefits = [
-  "100% remote — you set your own schedule",
-  "Contract engagement, part-time or full-time",
-  "Competitive contract rate, discussed before an offer is issued",
+  "Competitive salary and meaningful equity, discussed before an offer is issued",
+  "Remote-first, with overlap in European and US time zones",
   "Hardware and software of your choice",
+  "Learning budget for markets, security, design, and writing",
+  "Paid time off and parental leave",
   "Direct access to the founder — no ticket queue for product or technical decisions",
 ];
 
@@ -74,9 +63,8 @@ export const careerRoles: CareerRole[] = [
     slug: "senior-blockchain-engineer",
     title: "Senior Blockchain Engineer",
     team: "Protocol",
-    location: "100% remote",
-    type: "Contract",
-    schedule: "Part-time or full-time",
+    location: "Remote",
+    type: "Full-time",
     summary:
       "Solidity, EVM, and protocol work: design, implement, and review the on-chain systems Conveyor ships.",
     about:
@@ -102,9 +90,8 @@ export const careerRoles: CareerRole[] = [
     slug: "backend-engineer",
     title: "Backend Engineer",
     team: "Platform",
-    location: "100% remote",
-    type: "Contract",
-    schedule: "Part-time or full-time",
+    location: "Remote",
+    type: "Full-time",
     summary:
       "Trading APIs, databases, and services that sit behind the product — reliable, observable, and boring in the right ways.",
     about:
@@ -130,13 +117,12 @@ export const careerRoles: CareerRole[] = [
     slug: "frontend-web3-engineer",
     title: "Frontend / Web3 Engineer",
     team: "Product",
-    location: "100% remote",
-    type: "Contract",
-    schedule: "Part-time or full-time",
+    location: "Remote",
+    type: "Full-time",
     summary:
       "React, Next.js, and wallet integration — the marketing site and operator-facing Web3 surfaces.",
     about:
-      "You own the client: conveyor.finance, product studies, and wallet-connected flows. Wallet connect, transaction states, and layout quality are the job. You work directly with the founder on product.",
+      "You own the client: conveyor.finance, product studies, and wallet-connected flows. Wallet connect, transaction states, and layout quality are the job. You work directly with the CTO or Technical Product Manager on product.",
     responsibilities: [
       "Ship Next.js and React surfaces with a high craft bar",
       "Integrate wallets (wagmi, viem, or similar) with honest loading and error states",
@@ -158,9 +144,8 @@ export const careerRoles: CareerRole[] = [
     slug: "devops-security-engineer",
     title: "DevOps / Security Engineer",
     team: "Infrastructure",
-    location: "100% remote",
-    type: "Contract",
-    schedule: "Part-time or full-time",
+    location: "Remote",
+    type: "Full-time",
     summary:
       "Cloud, CI/CD, infrastructure, and monitoring — plus the security bar for keys, deploys, and production access.",
     about:
@@ -183,16 +168,15 @@ export const careerRoles: CareerRole[] = [
     ],
   },
   {
-    slug: "product-manager",
-    title: "Product Manager",
+    slug: "Blockchain Developer Relations Engineer",
+    title: "Blockchain Developer Relations Engineer",
     team: "Product",
-    location: "100% remote",
-    type: "Contract",
-    schedule: "Part-time or full-time",
+    location: "Remote",
+    type: "Full-time",
     summary:
-      "Turn vision into a sequenced product: what we build, what we do not claim, and how operators experience Conveyor.",
+      "By leveraging blockchain and AI technology, we offers a decentralized and transparent marketplace for predictions, allowing individuals to monetize their insights and forecasts.",
     about:
-      "The founder owns vision and technical direction. You own the product loop: discovery, sequencing, specs, and whether a surface is ready to be public. You keep marketing, protocol, and engineering on one story.",
+      "As a Blockchain Solutions Engineer, you will be the bridge between blockchains and the broader developer community. Your mission is to foster strong relationships with developers, providing them with the tools, resources, and support to thrive within the blockchain ecosystem. This position requires a keen interest in blockchain technology, a collaborative spirit, and a commitment to providing exceptional technical support and guidance.",
     responsibilities: [
       "Write clear problem statements, specs, and release criteria",
       "Sequence protocol, backend, and frontend work without theatre",
