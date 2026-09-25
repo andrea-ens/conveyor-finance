@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { engagementTypes } from "@/app/api/careers";
 
 type Status = "idle" | "submitting" | "sent" | "error";
 
@@ -25,6 +26,7 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
     const data = new FormData(form);
     const payload = {
       roleTitle,
+      engagement: String(data.get("engagement") || "").trim(),
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
       url: String(data.get("url") || "").trim(),
@@ -117,6 +119,29 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
                   aria-hidden="true"
                   className="absolute left-[-10000px] h-px w-px overflow-hidden"
                 />
+                <fieldset>
+                  <legend className="text-white/70 text-sm mb-3">
+                    How do you want to work?{" "}
+                    <span className="text-white/40">(required)</span>
+                  </legend>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {engagementTypes.map((option) => (
+                      <label
+                        key={option}
+                        className="flex items-center gap-3 rounded-md border border-white/15 px-4 h-14 text-white text-base cursor-pointer has-[:checked]:border-primary has-[:checked]:text-primary"
+                      >
+                        <input
+                          type="radio"
+                          name="engagement"
+                          value={option}
+                          required
+                          className="accent-primary size-4"
+                        />
+                        {option}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
                 <Input
                   required
                   name="name"

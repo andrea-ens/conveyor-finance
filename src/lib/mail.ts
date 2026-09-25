@@ -44,6 +44,7 @@ export function createMailTransport() {
 
 export type CareerApplication = {
   roleTitle: string;
+  engagement: string;
   name: string;
   email: string;
   url: string;
@@ -57,6 +58,7 @@ export async function sendCareerApplication(application: CareerApplication) {
 
   const text = [
     `Role: ${application.roleTitle}`,
+    `Engagement: ${application.engagement}`,
     `Name: ${application.name}`,
     `Email: ${application.email}`,
     `Portfolio or GitHub: ${application.url || "—"}`,
@@ -69,7 +71,7 @@ export async function sendCareerApplication(application: CareerApplication) {
     from: `"Conveyor Finance" <${from}>`,
     to: inbox,
     replyTo: `${application.name} <${application.email}>`,
-    subject: `Application: ${application.roleTitle} — ${application.name}`,
+    subject: `Application: ${application.roleTitle} (${application.engagement}) — ${application.name}`,
     text,
   });
 }

@@ -4,12 +4,21 @@ export type CareerRole = {
   team: string;
   location: string;
   type: string;
+  schedule: string;
   summary: string;
   about: string;
   responsibilities: string[];
   requirements: string[];
   niceToHave: string[];
 };
+
+export const engagementTypes = ["Full-time", "Part-time", "Contract"] as const;
+
+export type EngagementType = (typeof engagementTypes)[number];
+
+export function isEngagementType(value: string): value is EngagementType {
+  return (engagementTypes as readonly string[]).includes(value);
+}
 
 export const careerValues = [
   {
@@ -45,16 +54,18 @@ export const hiringSteps = [
   {
     step: "04",
     title: "Offer",
-    text: "We share compensation, equity, start date, and written expectations. You should have time to decide without pressure.",
+    text: "We share rate, hours (part-time or full-time), contract terms, and written expectations. You should have time to decide without pressure.",
   },
 ];
 
+export const roleEngagement =
+  "This is a 100% remote contract role. You set your own schedule, whether you are looking for part-time or full-time.";
+
 export const careerBenefits = [
-  "Competitive salary and meaningful equity, discussed before an offer is issued",
-  "Remote-first, with overlap in European and US time zones",
+  "100% remote — you set your own schedule",
+  "Contract engagement, part-time or full-time",
+  "Competitive contract rate, discussed before an offer is issued",
   "Hardware and software of your choice",
-  "Learning budget for markets, security, design, and writing",
-  "Paid time off and parental leave",
   "Direct access to the founder — no ticket queue for product or technical decisions",
 ];
 
@@ -63,12 +74,13 @@ export const careerRoles: CareerRole[] = [
     slug: "senior-blockchain-engineer",
     title: "Senior Blockchain Engineer",
     team: "Protocol",
-    location: "Remote",
-    type: "Full-time",
+    location: "100% remote",
+    type: "Contract",
+    schedule: "Part-time or full-time",
     summary:
       "Solidity, EVM, and protocol work: design, implement, and review the on-chain systems Conveyor ships.",
     about:
-      "You will own protocol quality with the founder (acting CTO). This is a senior individual-contributor seat — not a CTO hire. You write and review Solidity, reason about EVM constraints, and keep on-chain behavior honest in public.",
+      "You will own protocol quality with the CTO. This is a senior individual-contributor seat. You write and review Solidity, reason about EVM constraints, and keep on-chain behavior honest in public.",
     responsibilities: [
       "Design and implement Solidity contracts and protocol upgrades",
       "Review threat models, invariants, and upgrade paths before anything is treated as production",
@@ -90,8 +102,9 @@ export const careerRoles: CareerRole[] = [
     slug: "backend-engineer",
     title: "Backend Engineer",
     team: "Platform",
-    location: "Remote",
-    type: "Full-time",
+    location: "100% remote",
+    type: "Contract",
+    schedule: "Part-time or full-time",
     summary:
       "Trading APIs, databases, and services that sit behind the product — reliable, observable, and boring in the right ways.",
     about:
@@ -117,8 +130,9 @@ export const careerRoles: CareerRole[] = [
     slug: "frontend-web3-engineer",
     title: "Frontend / Web3 Engineer",
     team: "Product",
-    location: "Remote",
-    type: "Full-time",
+    location: "100% remote",
+    type: "Contract",
+    schedule: "Part-time or full-time",
     summary:
       "React, Next.js, and wallet integration — the marketing site and operator-facing Web3 surfaces.",
     about:
@@ -144,8 +158,9 @@ export const careerRoles: CareerRole[] = [
     slug: "devops-security-engineer",
     title: "DevOps / Security Engineer",
     team: "Infrastructure",
-    location: "Remote",
-    type: "Full-time",
+    location: "100% remote",
+    type: "Contract",
+    schedule: "Part-time or full-time",
     summary:
       "Cloud, CI/CD, infrastructure, and monitoring — plus the security bar for keys, deploys, and production access.",
     about:
@@ -171,8 +186,9 @@ export const careerRoles: CareerRole[] = [
     slug: "product-manager",
     title: "Product Manager",
     team: "Product",
-    location: "Remote",
-    type: "Full-time",
+    location: "100% remote",
+    type: "Contract",
+    schedule: "Part-time or full-time",
     summary:
       "Turn vision into a sequenced product: what we build, what we do not claim, and how operators experience Conveyor.",
     about:

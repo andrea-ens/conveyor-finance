@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { validateEmail } from "@/utils/validateEmail";
+import { isEngagementType } from "@/app/api/careers";
 import {
   isMailConfigured,
   sendCareerApplication,
@@ -39,10 +40,18 @@ export async function POST(request: Request) {
   }
   const note = clip(body.note, LIMITS.note);
   const roleTitle = clip(body.roleTitle, LIMITS.roleTitle);
+  const engagement = clip(body.engagement, 40);
 
   if (!name || !email || !note || !roleTitle) {
     return NextResponse.json(
       { error: "Name, email, role, and note are required." },
+      { status: 400 }
+    );
+  }
+
+  if (!isEngagementType(engagement)) {
+    return NextResponse.json(
+      { error: "Select full-time, part-time, or contract." },
       { status: 400 }
     );
   }
@@ -69,7 +78,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    await sendCareerApplication({ roleTitle, name, email, url, note });
+    await sendCareerApplication({ roleTitle, engagement, name, email, url, note });
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Career application mail failed:", error);

@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 import { teamMembers } from "@/app/api/team";
 import { careerRoles } from "@/app/api/careers";
 
 const Team = () => {
-  const founder = teamMembers[0];
-
   return (
     <section id="team" className="py-20 scroll-mt-32">
       <div className="container px-4">
@@ -13,69 +12,75 @@ const Team = () => {
         <h2 className="text-white sm:text-4xl text-3xl font-medium mt-2">
           How we are organized
         </h2>
-        <p className="text-white/60 mt-4 max-w-3xl text-lg leading-relaxed">
-          One founder in seat. Technical direction sits with the CEO for now —
-          we are not hiring a CTO / lead blockchain engineer until that split
-          is real. The roles below are the seats we are filling.
-        </p>
 
-        <div className="grid lg:grid-cols-12 gap-8 mt-12 items-stretch">
-          <article className="lg:col-span-5 rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
-            <div className="relative aspect-[5/4] bg-black/40">
-              <Image
-                src={founder.image}
-                alt={founder.name}
-                fill
-                className="object-cover object-top"
-                sizes="(min-width: 1024px) 40vw, 100vw"
-              />
-            </div>
-            <div className="p-8">
-              <h3 className="text-white text-2xl font-medium">{founder.name}</h3>
-              <p className="text-primary mt-1">{founder.role}</p>
-              <p className="text-white/40 text-sm mt-1">{founder.location}</p>
-              <p className="text-white/60 mt-4 leading-relaxed">{founder.bio}</p>
-              <p className="text-white/40 text-sm uppercase tracking-wide mt-8">
-                Responsibilities
-              </p>
-              <ul className="mt-3 grid grid-cols-2 gap-2">
-                {founder.responsibilities.map((item) => (
-                  <li key={item} className="text-white/80 text-sm">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              {founder.github ? (
-                <a
-                  href={founder.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-block text-sm text-white/70 hover:text-primary mt-6"
-                >
-                  GitHub
-                </a>
-              ) : null}
-            </div>
-          </article>
-
-          <div className="lg:col-span-7 rounded-3xl border border-white/10 bg-white/5 p-8 flex flex-col justify-center">
-            <p className="text-primary text-sm uppercase tracking-wide">
-              Not hiring yet
-            </p>
-            <h3 className="text-white text-2xl font-medium mt-3">
-              CTO / Lead Blockchain Engineer
-            </h3>
-            <p className="text-white/60 mt-4 leading-relaxed">
-              The founder is acting as CTO: technical direction, protocol
-              judgment, and engineering sequencing. We will not post this seat
-              until the company needs a dedicated technical lead separate from
-              the CEO.
-            </p>
-            <p className="text-white/45 text-sm mt-6 leading-relaxed">
-              Senior blockchain engineering is hired as an IC role, reporting
-              into the founder.
-            </p>
-          </div>
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 mt-12 items-stretch">
+          {teamMembers.map((member) => (
+            <article
+              key={member.name}
+              className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden flex flex-col"
+            >
+              <div className="relative aspect-[5/4] bg-black/40">
+                {member.image ? (
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-white/[0.04]">
+                    <span className="text-white/35 text-5xl font-medium tracking-tight">
+                      {member.name
+                        .split(" ")
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map((part) => part[0])
+                        .join("")}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="p-8 flex flex-col flex-1">
+                <h3 className="text-white text-2xl font-medium">{member.name}</h3>
+                {member.role ? (
+                  <p className="text-primary mt-1">{member.role}</p>
+                ) : null}
+                {member.location ? (
+                  <p className="text-white/40 text-sm mt-1">{member.location}</p>
+                ) : null}
+                {member.bio ? (
+                  <p className="text-white/60 mt-4 leading-relaxed">{member.bio}</p>
+                ) : null}
+                {member.responsibilities.length > 0 ? (
+                  <>
+                    <p className="text-white/40 text-sm uppercase tracking-wide mt-8">
+                      Responsibilities
+                    </p>
+                    <ul className="mt-3 grid grid-cols-2 gap-2">
+                      {member.responsibilities.map((item) => (
+                        <li key={item} className="text-white/80 text-sm">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : null}
+                {member.linkedin ? (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${member.name} on LinkedIn`}
+                    className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-primary mt-6 w-fit"
+                  >
+                    <Icon icon="fa6-brands:linkedin-in" width="18" height="18" />
+                    LinkedIn
+                  </a>
+                ) : null}
+              </div>
+            </article>
+          ))}
         </div>
 
         <div className="mt-16">

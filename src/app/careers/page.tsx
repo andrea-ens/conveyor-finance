@@ -30,7 +30,8 @@ export default function CareersPage() {
           </p>
           <p className="text-white/60 text-lg mt-6 max-w-3xl leading-relaxed">
             conveyor.finance is our marketing site. We are hiring senior blockchain, backend, frontend
-            Web3, DevOps / security, and product ,  not a CTO.
+            Web3, DevOps / security, and product — not a CTO. Every open role is 100% remote, contract,
+            and either part-time or full-time. You set your own schedule.
           </p>
         </div>
       </section>
@@ -123,6 +124,9 @@ export default function CareersPage() {
                   <span className="rounded-full border border-white/15 px-3 py-1 text-white/80">
                     {role.location}
                   </span>
+                  <span className="rounded-full border border-white/15 px-3 py-1 text-white/80">
+                    {role.schedule}
+                  </span>
                   <span className="rounded-full border border-primary/40 text-primary px-3 py-1">
                     {role.type}
                   </span>
@@ -142,8 +146,8 @@ export default function CareersPage() {
               What we offer
             </h2>
             <p className="text-white/60 mt-4 text-lg leading-relaxed">
-              We share salary and equity ranges in the first substantive
-              conversation. We will not ask you to name a number before we do.
+              We share contract rates in the first substantive conversation. We
+              will not ask you to name a number before we do.
             </p>
           </div>
           <ul className="space-y-4">

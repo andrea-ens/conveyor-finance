@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import HeroSub from "@/components/SharedComponent/HeroSub";
-import { careerRoles, getRoleBySlug } from "@/app/api/careers";
+import { careerRoles, getRoleBySlug, roleEngagement } from "@/app/api/careers";
 import ApplyForm from "@/components/Careers/ApplyForm";
 
 type PageProps = {
@@ -46,10 +46,16 @@ export default async function CareerRolePage({ params }: PageProps) {
             <span className="rounded-full border border-white/15 px-3 py-1 text-white/80 text-sm">
               {role.location}
             </span>
+            <span className="rounded-full border border-white/15 px-3 py-1 text-white/80 text-sm">
+              {role.schedule}
+            </span>
             <span className="rounded-full border border-primary/40 text-primary px-3 py-1 text-sm">
               {role.type}
             </span>
           </div>
+          <p className="text-white/70 text-lg leading-relaxed mb-8">
+            {roleEngagement}
+          </p>
           <p className="text-white text-xl leading-relaxed">{role.about}</p>
           <h2 className="text-white text-2xl font-medium mt-12 mb-4">
             What you will do
