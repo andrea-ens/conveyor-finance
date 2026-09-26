@@ -4,6 +4,7 @@ import { isEngagementType } from "@/lib/engagement";
 import { parseResumeFile } from "@/lib/resume";
 import {
   isMailConfigured,
+  publicSmtpError,
   sendCareerApplication,
 } from "@/lib/mail";
 
@@ -118,14 +119,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Career application mail failed:", error);
-    const detail =
-      error && typeof error === "object" && "response" in error
-        ? String((error as { response?: string }).response || "").slice(0, 180)
-        : "";
+    const detail = publicSmtpError(error);
     return NextResponse.json(
       {
         error: detail
-          ? `Could not deliver the application (${detail}). Check SMTP settings on Vercel, then try again.`
+          ? `Could not deliver the application (${detail}).`
           : "Could not deliver the application. Check SMTP settings on Vercel, then try again.",
       },
       { status: 502 }

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { validateEmail } from "@/utils/validateEmail";
-import { isMailConfigured, sendContactMessage } from "@/lib/mail";
+import { isMailConfigured, publicSmtpError, sendContactMessage } from "@/lib/mail";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 const LIMITS = {
   name: 120,
@@ -58,10 +59,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Contact mail failed:", error);
+    const detail = publicSmtpError(error);
     return NextResponse.json(
       {
-        error:
-          "Could not deliver the message. Try again, or write to hello@conveyor.finance.",
+        error: detail
+          ? `Could not deliver the message (${detail}).`
+          : "Could not deliver the message. Check SMTP settings on Vercel, then try again.",
       },
       { status: 502 }
     );
