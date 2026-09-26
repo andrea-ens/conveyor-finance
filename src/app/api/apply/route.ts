@@ -8,6 +8,7 @@ import {
 } from "@/lib/mail";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 const LIMITS = {
   name: 120,
@@ -117,10 +118,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Career application mail failed:", error);
+    const detail =
+      error && typeof error === "object" && "response" in error
+        ? String((error as { response?: string }).response || "").slice(0, 180)
+        : "";
     return NextResponse.json(
       {
-        error:
-          "Could not deliver the application. Try again, or write to careers@conveyor.finance.",
+        error: detail
+          ? `Could not deliver the application (${detail}). Check SMTP settings on Vercel, then try again.`
+          : "Could not deliver the application. Check SMTP settings on Vercel, then try again.",
       },
       { status: 502 }
     );

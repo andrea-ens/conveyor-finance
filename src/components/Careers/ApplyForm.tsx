@@ -108,7 +108,7 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
                 {roleTitle}
               </DialogTitle>
               <DialogDescription className="text-white/55 text-base leading-relaxed">
-                This form — including the resume — is emailed to
+                This form including the resume is emailed to
                 careers@conveyor.finance. We aim to reply within seven business
                 days.
               </DialogDescription>
@@ -209,7 +209,7 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
                 >
                   {status === "submitting"
                     ? "Sending…"
-                    : "Send to careers@conveyor.finance"}
+                    : "Submit"}
                 </Button>
                 {status === "error" ? (
                   <p className="text-red-400 text-sm text-center">{error}</p>

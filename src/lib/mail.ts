@@ -16,6 +16,17 @@ export function isMailConfigured() {
   );
 }
 
+function smtpPass() {
+  let pass = requiredEnv("SMTP_PASS");
+  if (
+    (pass.startsWith('"') && pass.endsWith('"')) ||
+    (pass.startsWith("'") && pass.endsWith("'"))
+  ) {
+    pass = pass.slice(1, -1);
+  }
+  return pass;
+}
+
 export function getHelloInbox() {
   return process.env.HELLO_EMAIL?.trim() || "hello@conveyor.finance";
 }
@@ -24,18 +35,10 @@ export function getCareersInbox() {
   return process.env.CAREERS_EMAIL?.trim() || "careers@conveyor.finance";
 }
 
-function uniqueEmails(...emails: string[]) {
-  return [...new Set(emails.filter(Boolean))];
-}
-
-export function getApplicationRecipients() {
-  return uniqueEmails(getCareersInbox(), getHelloInbox());
-}
-
 export function createMailTransport() {
   const host = requiredEnv("SMTP_HOST");
   const user = requiredEnv("SMTP_USER");
-  const pass = requiredEnv("SMTP_PASS");
+  const pass = smtpPass();
   const port = Number(process.env.SMTP_PORT || 587);
   const secure =
     process.env.SMTP_SECURE === "true" ||
@@ -47,6 +50,9 @@ export function createMailTransport() {
     port,
     secure,
     auth: { user, pass },
+    connectionTimeout: 15_000,
+    greetingTimeout: 15_000,
+    socketTimeout: 20_000,
   });
 }
 
@@ -69,7 +75,7 @@ export async function sendCareerApplication(application: CareerApplication) {
     throw new Error("Resume is required");
   }
 
-  const recipients = getApplicationRecipients();
+  const inbox = getCareersInbox();
   const from = process.env.SMTP_FROM?.trim() || process.env.SMTP_USER!.trim();
   const transport = createMailTransport();
   const resume = application.resume;
@@ -88,7 +94,7 @@ export async function sendCareerApplication(application: CareerApplication) {
 
   await transport.sendMail({
     from: `"Conveyor Finance" <${from}>`,
-    to: recipients,
+    to: inbox,
     replyTo: `${application.name} <${application.email}>`,
     subject: `Application: ${application.roleTitle} (${application.engagement}) — ${application.name}`,
     text,
