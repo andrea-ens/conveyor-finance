@@ -79,9 +79,6 @@ function createTransport(port: number, secure: boolean): Transporter {
       servername: host,
       minVersion: "TLSv1.2",
     },
-    lookup(hostname, _options, callback) {
-      dns.lookup(hostname, { family: 4 }, callback);
-    },
   });
 }
 
