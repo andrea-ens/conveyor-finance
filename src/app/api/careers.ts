@@ -4,6 +4,7 @@ export type CareerRole = {
   team: string;
   location: string;
   type: string;
+  schedule: string;
   summary: string;
   about: string;
   responsibilities: string[];
@@ -45,16 +46,18 @@ export const hiringSteps = [
   {
     step: "04",
     title: "Offer",
-    text: "We share compensation, equity, start date, and written expectations. You should have time to decide without pressure.",
+    text: "We share rate, hours (part-time or full-time), contract terms, and written expectations. You should have time to decide without pressure.",
   },
 ];
 
+export const roleEngagement =
+  "This is a 100% remote contract role. You set your own schedule, whether you are looking for part-time or full-time.";
+
 export const careerBenefits = [
-  "Competitive salary and meaningful equity, discussed before an offer is issued",
-  "Remote-first, with overlap in European and US time zones",
+  "100% remote — you set your own schedule",
+  "Contract engagement, part-time or full-time",
+  "Competitive contract rate, discussed before an offer is issued",
   "Hardware and software of your choice",
-  "Learning budget for markets, security, design, and writing",
-  "Paid time off and parental leave",
   "Direct access to the founder — no ticket queue for product or technical decisions",
 ];
 
@@ -63,8 +66,9 @@ export const careerRoles: CareerRole[] = [
     slug: "senior-blockchain-engineer",
     title: "Senior Blockchain Engineer",
     team: "Protocol",
-    location: "Remote",
+    location: "100% remote",
     type: "Full-time",
+    schedule: "Part-time or full-time",
     summary:
       "Solidity, EVM, and protocol work: design, implement, and review the on-chain systems Conveyor ships.",
     about:
@@ -90,8 +94,9 @@ export const careerRoles: CareerRole[] = [
     slug: "backend-engineer",
     title: "Backend Engineer",
     team: "Platform",
-    location: "Remote",
+    location: "100% remote",
     type: "Full-time",
+    schedule: "Part-time or full-time",
     summary:
       "Trading APIs, databases, and services that sit behind the product — reliable, observable, and boring in the right ways.",
     about:
@@ -117,8 +122,9 @@ export const careerRoles: CareerRole[] = [
     slug: "frontend-web3-engineer",
     title: "Frontend / Web3 Engineer",
     team: "Product",
-    location: "Remote",
+    location: "100% remote",
     type: "Full-time",
+    schedule: "Part-time or full-time",
     summary:
       "React, Next.js, and wallet integration — the marketing site and operator-facing Web3 surfaces.",
     about:
@@ -144,8 +150,9 @@ export const careerRoles: CareerRole[] = [
     slug: "devops-security-engineer",
     title: "DevOps / Security Engineer",
     team: "Infrastructure",
-    location: "Remote",
+    location: "100% remote",
     type: "Full-time",
+    schedule: "Part-time or full-time",
     summary:
       "Cloud, CI/CD, infrastructure, and monitoring — plus the security bar for keys, deploys, and production access.",
     about:
@@ -168,30 +175,35 @@ export const careerRoles: CareerRole[] = [
     ],
   },
   {
-    slug: "Blockchain Developer Relations Engineer",
+    slug: "Blockchain-devrel-engineer",
     title: "Blockchain Developer Relations Engineer",
     team: "Product",
-    location: "Remote",
+    location: "100% remote",
     type: "Full-time",
+    schedule: "Part-time or full-time",
     summary:
       "By leveraging blockchain and AI technology, we offers a decentralized and transparent marketplace for predictions, allowing individuals to monetize their insights and forecasts.",
     about:
       "As a Blockchain Solutions Engineer, you will be the bridge between blockchains and the broader developer community. Your mission is to foster strong relationships with developers, providing them with the tools, resources, and support to thrive within the blockchain ecosystem. This position requires a keen interest in blockchain technology, a collaborative spirit, and a commitment to providing exceptional technical support and guidance.",
     responsibilities: [
-      "Write clear problem statements, specs, and release criteria",
-      "Sequence protocol, backend, and frontend work without theatre",
-      "Keep public claims aligned with what is actually built",
-      "Talk to operators and candidates; bring signal back to the founder",
+      "Stay updated on blockchain industry trends, emerging technologies, and the competitive landscape to identify opportunities for growth and improvement",
+      "Engage with the developer community to gather valuable insights, identify areas for product enhancement, and solve the problems.",
+      "Serve as a proactive champion for developers, actively addressing their concerns, and facilitating a supportive and engaging community environment.",
+      "Collaborate with various teams such as product, marketing, and engineering teams to ensure developer relations initiatives are aligned with business strategies and objectives.",
+      "Create and maintain comprehensive technical documentation, tutorials, sample code, and other resources to empower developers.", 
+      "Provide timely and effective technical support to developers, assisting with troubleshooting, technical inquiries, and integration challenges.", 
     ],
     requirements: [
-      "Shipped product in crypto, fintech, or similarly constrained domains",
-      "Excellent writing and facilitation",
-      "Comfort saying no, including to the founder",
-      "Ability to work with engineers without becoming a ticket clerk",
+      "Positive attitude with a strong desire to learn and grow within a Community Management and Engineering team.",
+      "Familiarity with community management platforms such as Telegram and Discord.",
+      "Basic understanding of programming languages and software development tools, for example: Solidity, TypeScript, Golang or Rust.",
+      "Bachelor’s degree in Computer Science, Software Engineering, or a related field, or equivalent practical experience.",
+      "Minimum 1 year of experience in a similar role, with exposure to software engineering, customer support, or developer relations.",
+      "Strong problem-solving abilities and attention to detail.", 
     ],
     niceToHave: [
-      "Trading, DeFi, or wallet product experience",
-      "Early-stage company experience (first PM or small team)",
+      "Excellent communication and interpersonal skills",
+      "Experience in token mint is more plus",
     ],
   },
 ];

@@ -11,7 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { engagementTypes } from "@/app/api/careers";
+import { engagementTypes } from "@/lib/engagement";
+import { RESUME_MAX_BYTES } from "@/lib/resume";
 
 type Status = "idle" | "submitting" | "sent" | "error";
 
@@ -19,20 +20,27 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+  const [resumeName, setResumeName] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const payload = {
-      roleTitle,
-      engagement: String(data.get("engagement") || "").trim(),
-      name: String(data.get("name") || "").trim(),
-      email: String(data.get("email") || "").trim(),
-      url: String(data.get("url") || "").trim(),
-      note: String(data.get("note") || "").trim(),
-      website: String(data.get("website") || "").trim(),
-    };
+    data.set("roleTitle", roleTitle);
+
+    const resume = data.get("resume");
+    if (!(resume instanceof File) || resume.size === 0) {
+      setError("Upload a resume.");
+      setStatus("error");
+      toast.error("Upload a resume.");
+      return;
+    }
+    if (resume.size > RESUME_MAX_BYTES) {
+      setError("Resume must be 4 MB or smaller.");
+      setStatus("error");
+      toast.error("Resume must be 4 MB or smaller.");
+      return;
+    }
 
     setStatus("submitting");
     setError("");
@@ -40,8 +48,7 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
     try {
       const response = await fetch("/api/apply", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: data,
       });
       const result = (await response.json()) as { ok?: boolean; error?: string };
 
@@ -51,6 +58,7 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
 
       setStatus("sent");
       form.reset();
+      setResumeName("");
       toast.success("Application sent to careers@conveyor.finance");
     } catch (err) {
       const message =
@@ -79,6 +87,7 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
           if (!next) {
             setStatus("idle");
             setError("");
+            setResumeName("");
           }
         }}
       >
@@ -99,8 +108,9 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
                 {roleTitle}
               </DialogTitle>
               <DialogDescription className="text-white/55 text-base leading-relaxed">
-                This form is delivered to careers@conveyor.finance. We aim to
-                reply within seven business days.
+                This form — including the resume — is emailed to
+                careers@conveyor.finance. We aim to reply within seven business
+                days.
               </DialogDescription>
             </DialogHeader>
 
@@ -163,6 +173,28 @@ const ApplyForm = ({ roleTitle }: { roleTitle: string }) => {
                   placeholder="Linkedin, Portfolio or GitHub URL"
                   className="bg-transparent border-white/15 text-white h-14 text-base px-4"
                 />
+                <div>
+                  <p className="text-white/70 text-sm mb-3">
+                    Resume{" "}
+                    <span className="text-white/40">(PDF, DOC, or DOCX, max 4 MB)</span>
+                  </p>
+                  <label className="flex items-center justify-between gap-3 rounded-md border border-white/15 px-4 h-14 text-white cursor-pointer hover:border-primary/60">
+                    <span className="truncate text-base text-white/80">
+                      {resumeName || "Upload resume"}
+                    </span>
+                    <span className="text-primary text-sm shrink-0">Choose file</span>
+                    <input
+                      required
+                      type="file"
+                      name="resume"
+                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      className="sr-only"
+                      onChange={(event) => {
+                        setResumeName(event.target.files?.[0]?.name || "");
+                      }}
+                    />
+                  </label>
+                </div>
                 <textarea
                   required
                   name="note"

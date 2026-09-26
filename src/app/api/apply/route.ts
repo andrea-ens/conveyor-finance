@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { validateEmail } from "@/utils/validateEmail";
-import { isEngagementType } from "@/app/api/careers";
+import { isEngagementType } from "@/lib/engagement";
+import { parseResumeFile } from "@/lib/resume";
 import {
   isMailConfigured,
   sendCareerApplication,
@@ -21,26 +22,26 @@ function clip(value: unknown, max: number) {
 }
 
 export async function POST(request: Request) {
-  let body: Record<string, unknown>;
+  let form: FormData;
   try {
-    body = await request.json();
+    form = await request.formData();
   } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  if (clip(body.website, 200)) {
+  if (clip(form.get("website"), 200)) {
     return NextResponse.json({ ok: true });
   }
 
-  const name = clip(body.name, LIMITS.name);
-  const email = clip(body.email, LIMITS.email);
-  let url = clip(body.url, LIMITS.url);
+  const name = clip(form.get("name"), LIMITS.name);
+  const email = clip(form.get("email"), LIMITS.email);
+  let url = clip(form.get("url"), LIMITS.url);
   if (url && !/^https?:\/\//i.test(url)) {
     url = `https://${url}`;
   }
-  const note = clip(body.note, LIMITS.note);
-  const roleTitle = clip(body.roleTitle, LIMITS.roleTitle);
-  const engagement = clip(body.engagement, 40);
+  const note = clip(form.get("note"), LIMITS.note);
+  const roleTitle = clip(form.get("roleTitle"), LIMITS.roleTitle);
+  const engagement = clip(form.get("engagement"), 40);
 
   if (!name || !email || !note || !roleTitle) {
     return NextResponse.json(
@@ -67,6 +68,28 @@ export async function POST(request: Request) {
     );
   }
 
+  const resumeField = form.get("resume");
+  if (
+    !resumeField ||
+    typeof resumeField === "string" ||
+    typeof resumeField.arrayBuffer !== "function"
+  ) {
+    return NextResponse.json({ error: "Upload a resume." }, { status: 400 });
+  }
+
+  const resumeName =
+    "name" in resumeField && typeof resumeField.name === "string"
+      ? resumeField.name
+      : "resume.pdf";
+  const resumeBytes = new Uint8Array(await resumeField.arrayBuffer());
+  const parsed = parseResumeFile(
+    { name: resumeName, size: resumeField.size },
+    resumeBytes
+  );
+  if ("error" in parsed) {
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
+  }
+
   if (!isMailConfigured()) {
     return NextResponse.json(
       {
@@ -78,12 +101,27 @@ export async function POST(request: Request) {
   }
 
   try {
-    await sendCareerApplication({ roleTitle, engagement, name, email, url, note });
+    await sendCareerApplication({
+      roleTitle,
+      engagement,
+      name,
+      email,
+      url,
+      note,
+      resume: {
+        filename: parsed.filename,
+        contentType: parsed.contentType,
+        content: Buffer.from(resumeBytes),
+      },
+    });
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Career application mail failed:", error);
     return NextResponse.json(
-      { error: "Could not deliver the application. Try again, or write to careers@conveyor.finance." },
+      {
+        error:
+          "Could not deliver the application. Try again, or write to careers@conveyor.finance.",
+      },
       { status: 502 }
     );
   }

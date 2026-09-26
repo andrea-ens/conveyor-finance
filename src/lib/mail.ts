@@ -24,6 +24,14 @@ export function getCareersInbox() {
   return process.env.CAREERS_EMAIL?.trim() || "careers@conveyor.finance";
 }
 
+function uniqueEmails(...emails: string[]) {
+  return [...new Set(emails.filter(Boolean))];
+}
+
+export function getApplicationRecipients() {
+  return uniqueEmails(getCareersInbox(), getHelloInbox());
+}
+
 export function createMailTransport() {
   const host = requiredEnv("SMTP_HOST");
   const user = requiredEnv("SMTP_USER");
@@ -49,12 +57,22 @@ export type CareerApplication = {
   email: string;
   url: string;
   note: string;
+  resume?: {
+    filename: string;
+    contentType: string;
+    content: Buffer;
+  };
 };
 
 export async function sendCareerApplication(application: CareerApplication) {
-  const inbox = getCareersInbox();
+  if (!application.resume?.content.length) {
+    throw new Error("Resume is required");
+  }
+
+  const recipients = getApplicationRecipients();
   const from = process.env.SMTP_FROM?.trim() || process.env.SMTP_USER!.trim();
   const transport = createMailTransport();
+  const resume = application.resume;
 
   const text = [
     `Role: ${application.roleTitle}`,
@@ -62,6 +80,7 @@ export async function sendCareerApplication(application: CareerApplication) {
     `Name: ${application.name}`,
     `Email: ${application.email}`,
     `Portfolio or GitHub: ${application.url || "—"}`,
+    `Resume: ${resume.filename} (attached)`,
     "",
     "Why Conveyor Finance, and what would you own in the first 90 days:",
     application.note,
@@ -69,10 +88,19 @@ export async function sendCareerApplication(application: CareerApplication) {
 
   await transport.sendMail({
     from: `"Conveyor Finance" <${from}>`,
-    to: inbox,
+    to: recipients,
     replyTo: `${application.name} <${application.email}>`,
     subject: `Application: ${application.roleTitle} (${application.engagement}) — ${application.name}`,
     text,
+    attachments: [
+      {
+        filename: resume.filename,
+        content: resume.content.toString("base64"),
+        encoding: "base64",
+        contentType: resume.contentType,
+        contentDisposition: "attachment",
+      },
+    ],
   });
 }
 
